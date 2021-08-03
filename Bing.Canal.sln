@@ -1,0 +1,56 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30907.101
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_SolutionItems", "_SolutionItems", "{BADCA1AE-7D25-4D65-A42F-D0B1DD9C1756}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+		common.props = common.props
+		LICENSE = LICENSE
+		Publish.bat = Publish.bat
+		README.md = README.md
+		version.props = version.props
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "asset", "asset", "{FF58FEAF-DA43-485E-B1CF-D033B80E12FF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "props", "props", "{5343B47C-34A4-418C-8E14-DA74D6D389D6}"
+	ProjectSection(SolutionItems) = preProject
+		asset\props\misc.props = asset\props\misc.props
+		asset\props\package.props = asset\props\package.props
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "images", "images", "{D4F5F482-847E-430B-881B-9CB32FCC2081}"
+	ProjectSection(SolutionItems) = preProject
+		asset\images\icon.png = asset\images\icon.png
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01-src", "01-src", "{D822B21E-6792-49AA-814C-B1A6CD040A8C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bing.Canal", "src\Bing.Canal\Bing.Canal.csproj", "{A0C3648D-1C85-4FA4-9839-E2672FD4B10F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A0C3648D-1C85-4FA4-9839-E2672FD4B10F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A0C3648D-1C85-4FA4-9839-E2672FD4B10F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A0C3648D-1C85-4FA4-9839-E2672FD4B10F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A0C3648D-1C85-4FA4-9839-E2672FD4B10F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{FF58FEAF-DA43-485E-B1CF-D033B80E12FF} = {BADCA1AE-7D25-4D65-A42F-D0B1DD9C1756}
+		{5343B47C-34A4-418C-8E14-DA74D6D389D6} = {FF58FEAF-DA43-485E-B1CF-D033B80E12FF}
+		{D4F5F482-847E-430B-881B-9CB32FCC2081} = {FF58FEAF-DA43-485E-B1CF-D033B80E12FF}
+		{A0C3648D-1C85-4FA4-9839-E2672FD4B10F} = {D822B21E-6792-49AA-814C-B1A6CD040A8C}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {30FADDC6-DA83-4ECF-9437-46D1B116E33E}
+	EndGlobalSection
+EndGlobal
