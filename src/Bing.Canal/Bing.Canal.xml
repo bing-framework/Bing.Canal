@@ -123,19 +123,6 @@
             <param name="serviceScopeFactory">服务作用域工厂</param>
             <param name="register">消费者注册器</param>
         </member>
-        <member name="M:Bing.Canal.Server.CanalClientHostedServiceBase.SendAsync(Bing.Canal.Server.Models.CanalBody)">
-            <summary>
-            发送消息
-            </summary>
-            <param name="canalBody">Canal内容体</param>
-        </member>
-        <member name="M:Bing.Canal.Server.CanalClientHostedServiceBase.GetCanalBody(System.Collections.Generic.List{CanalSharp.Protocol.Entry},System.Int64)">
-            <summary>
-            获取Canal内容
-            </summary>
-            <param name="entries">变更入口列表</param>
-            <param name="batchId">批次标识</param>
-        </member>
         <member name="M:Bing.Canal.Server.CanalClientHostedServiceBase.ConnectAsync">
             <summary>
             连接
@@ -199,6 +186,19 @@
             <summary>
             确认消息
             </summary>
+        </member>
+        <member name="M:Bing.Canal.Server.CanalClientHostedServiceBase.SendAsync(Bing.Canal.Server.Models.CanalBody)">
+            <summary>
+            发送消息
+            </summary>
+            <param name="canalBody">Canal内容体</param>
+        </member>
+        <member name="M:Bing.Canal.Server.CanalClientHostedServiceBase.GetCanalBody(System.Collections.Generic.List{CanalSharp.Protocol.Entry},System.Int64)">
+            <summary>
+            获取Canal内容
+            </summary>
+            <param name="entries">变更入口列表</param>
+            <param name="batchId">批次标识</param>
         </member>
         <member name="T:Bing.Canal.Server.CanalConsumeRegister">
             <summary>
@@ -318,74 +318,47 @@
             Canal 连接
             </summary>
         </member>
-        <member name="F:Bing.Canal.Server.ClusterCanalClientHostedService._isDispose">
+        <member name="M:Bing.Canal.Server.ClusterCanalClientHostedService.#ctor(Microsoft.Extensions.Logging.ILogger{Bing.Canal.Server.ClusterCanalClientHostedService},Microsoft.Extensions.Logging.ILoggerFactory,Microsoft.Extensions.Options.IOptions{Bing.Canal.Server.CanalOptions},Microsoft.Extensions.DependencyInjection.IServiceScopeFactory,Bing.Canal.Server.CanalConsumeRegister)">
             <summary>
-            是否已释放
+            初始化一个<see cref="T:Bing.Canal.Server.ClusterCanalClientHostedService"/>类型的实例
+            </summary>
+            <param name="logger">日志</param>
+            <param name="loggerFactory">日志工厂</param>
+            <param name="options">选项配置</param>
+            <param name="serviceScopeFactory">服务作用域工厂</param>
+            <param name="register">消费者注册器</param>
+        </member>
+        <member name="M:Bing.Canal.Server.ClusterCanalClientHostedService.ConnectAsync">
+            <summary>
+            连接
             </summary>
         </member>
-        <member name="F:Bing.Canal.Server.ClusterCanalClientHostedService._scope">
+        <member name="M:Bing.Canal.Server.ClusterCanalClientHostedService.ReConnectAsync">
             <summary>
-            作用域
+            重新连接
             </summary>
         </member>
-        <member name="F:Bing.Canal.Server.ClusterCanalClientHostedService._registerTypeList">
+        <member name="M:Bing.Canal.Server.ClusterCanalClientHostedService.GetMessageAsync(System.Int32)">
             <summary>
-            注册类型列表
+            获取数据
             </summary>
+            <param name="fetchSize">获取数据大小</param>
         </member>
-        <member name="F:Bing.Canal.Server.ClusterCanalClientHostedService._queue">
+        <member name="M:Bing.Canal.Server.ClusterCanalClientHostedService.AckAsync(System.Int64)">
             <summary>
-            队列
+            确认消息
             </summary>
-        </member>
-        <member name="F:Bing.Canal.Server.ClusterCanalClientHostedService._canalQueue">
-            <summary>
-            Canal队列
-            </summary>
-        </member>
-        <member name="F:Bing.Canal.Server.ClusterCanalClientHostedService._resetFlag">
-            <summary>
-            重置标识
-            </summary>
-        </member>
-        <member name="F:Bing.Canal.Server.ClusterCanalClientHostedService._condition">
-            <summary>
-            自动重置事件
-            </summary>
-        </member>
-        <member name="F:Bing.Canal.Server.ClusterCanalClientHostedService._cts">
-            <summary>
-            取消令牌源
-            </summary>
-        </member>
-        <member name="M:Bing.Canal.Server.ClusterCanalClientHostedService.StartAsync(System.Threading.CancellationToken)">
-            <summary>
-            启动
-            </summary>
-            <param name="cancellationToken">取消令牌</param>
-        </member>
-        <member name="M:Bing.Canal.Server.ClusterCanalClientHostedService.StopAsync(System.Threading.CancellationToken)">
-            <summary>
-            停止
-            </summary>
-            <param name="cancellationToken">取消令牌</param>
-        </member>
-        <member name="M:Bing.Canal.Server.ClusterCanalClientHostedService.LazyCanalGetEntities">
-            <summary>
-            获取实体列表
-            </summary>
-        </member>
-        <member name="M:Bing.Canal.Server.ClusterCanalClientHostedService.PreparedAndEnqueueAsync">
-            <summary>
-            准备数据并入队
-            </summary>
-        </member>
-        <member name="M:Bing.Canal.Server.ClusterCanalClientHostedService.GetCanalBodyList(System.Collections.Generic.List{CanalSharp.Protocol.Entry},System.Int64)">
-            <summary>
-            获取Canal内容
-            </summary>
-            <param name="entries">变更入口列表</param>
             <param name="batchId">批次标识</param>
+        </member>
+        <member name="M:Bing.Canal.Server.ClusterCanalClientHostedService.Valid">
+            <summary>
+            校验
+            </summary>
+        </member>
+        <member name="M:Bing.Canal.Server.ClusterCanalClientHostedService.DisposeAsync">
+            <summary>
+            释放资源
+            </summary>
         </member>
         <member name="T:Bing.Canal.Server.Extensions">
             <summary>
