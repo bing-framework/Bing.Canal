@@ -360,10 +360,49 @@
             释放资源
             </summary>
         </member>
+        <member name="T:Bing.Canal.Server.DataChangeExtensions">
+            <summary>
+            <see cref="T:Bing.Canal.Model.DataChange"/> 扩展
+            </summary>
+        </member>
+        <member name="M:Bing.Canal.Server.DataChangeExtensions.GetColumns(Bing.Canal.Model.DataChange)">
+            <summary>
+            获取有效数据列集合
+            </summary>
+            <param name="dataChange">数据变更实体</param>
+        </member>
+        <member name="M:Bing.Canal.Server.DataChangeExtensions.GetPrimaryKeyColumn(Bing.Canal.Model.DataChange)">
+            <summary>
+            获取主键列
+            </summary>
+            <param name="dataChange">数据变更实体</param>
+        </member>
         <member name="T:Bing.Canal.Server.Extensions">
             <summary>
             服务扩展 - Canal服务
             </summary>
+        </member>
+        <member name="M:Bing.Canal.Server.Extensions.RegisterCanalService(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Action{Bing.Canal.Server.CanalConsumeRegister},System.Boolean)">
+            <summary>
+            注册Canal服务
+            </summary>
+            <param name="services">服务集合</param>
+            <param name="setupAction">操作</param>
+            <param name="isCluster">是否集群服务</param>
+        </member>
+        <member name="M:Bing.Canal.Server.Extensions.AddCanalService(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Action{Bing.Canal.Server.CanalConsumeRegister})">
+            <summary>
+            注册Canal服务
+            </summary>
+            <param name="services">服务集合</param>
+            <param name="setupAction">操作</param>
+        </member>
+        <member name="M:Bing.Canal.Server.Extensions.AddClusterCanalService(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Action{Bing.Canal.Server.CanalConsumeRegister})">
+            <summary>
+            注册Canal集群服务
+            </summary>
+            <param name="services">服务集合</param>
+            <param name="setupAction">操作</param>
         </member>
         <member name="T:Bing.Canal.Server.INotification">
             <summary>

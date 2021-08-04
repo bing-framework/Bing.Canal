@@ -28,11 +28,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "images", "images", "{D4F5F4
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01-src", "01-src", "{D822B21E-6792-49AA-814C-B1A6CD040A8C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bing.Canal", "src\Bing.Canal\Bing.Canal.csproj", "{A0C3648D-1C85-4FA4-9839-E2672FD4B10F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bing.Canal", "src\Bing.Canal\Bing.Canal.csproj", "{A0C3648D-1C85-4FA4-9839-E2672FD4B10F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "03-samples", "03-samples", "{ADE68897-C939-4612-A492-E90A22494E5B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bing.Samples.Canal", "samples\Bing.Samples.Canal\Bing.Samples.Canal.csproj", "{37F4D3B3-89F6-4B04-9184-ED5BAFD3C874}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bing.Samples.Canal", "samples\Bing.Samples.Canal\Bing.Samples.Canal.csproj", "{37F4D3B3-89F6-4B04-9184-ED5BAFD3C874}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bing.Samples.Canal.Cap", "samples\Bing.Samples.Canal.Cap\Bing.Samples.Canal.Cap.csproj", "{1AF65941-A246-4C39-BCC5-5F0CD93F1D72}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -48,6 +50,10 @@ Global
 		{37F4D3B3-89F6-4B04-9184-ED5BAFD3C874}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{37F4D3B3-89F6-4B04-9184-ED5BAFD3C874}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{37F4D3B3-89F6-4B04-9184-ED5BAFD3C874}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1AF65941-A246-4C39-BCC5-5F0CD93F1D72}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1AF65941-A246-4C39-BCC5-5F0CD93F1D72}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1AF65941-A246-4C39-BCC5-5F0CD93F1D72}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1AF65941-A246-4C39-BCC5-5F0CD93F1D72}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -58,6 +64,7 @@ Global
 		{D4F5F482-847E-430B-881B-9CB32FCC2081} = {FF58FEAF-DA43-485E-B1CF-D033B80E12FF}
 		{A0C3648D-1C85-4FA4-9839-E2672FD4B10F} = {D822B21E-6792-49AA-814C-B1A6CD040A8C}
 		{37F4D3B3-89F6-4B04-9184-ED5BAFD3C874} = {ADE68897-C939-4612-A492-E90A22494E5B}
+		{1AF65941-A246-4C39-BCC5-5F0CD93F1D72} = {ADE68897-C939-4612-A492-E90A22494E5B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {30FADDC6-DA83-4ECF-9437-46D1B116E33E}
