@@ -183,14 +183,10 @@ namespace Bing.Canal.Server
 
                         await Task.Delay(300);
                     }
-                    catch (IOException io)
-                    {
-                        _logger.LogError(io, "canal receive data error...");
-                        await ReConnectAsync();
-                    }
                     catch (Exception e)
                     {
-                        _logger.LogError(e, $"canal receive data error...");
+                        _logger.LogError(e, "canal receive data error...");
+                        await Task.Delay(1000);
                         await ReConnectAsync();
                     }
                 }

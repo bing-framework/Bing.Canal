@@ -26,7 +26,11 @@ namespace Bing.Samples.Canal.Cap
             var builder = new HostBuilder()
                 .ConfigureServices((hostContext, services) =>
                 {
-                    services.AddCanalService(x =>
+                    //services.AddCanalService(x =>
+                    //{
+                    //    x.RegisterSingleton<CapHandler>();
+                    //});
+                    services.AddClusterCanalService(x =>
                     {
                         x.RegisterSingleton<CapHandler>();
                     });
