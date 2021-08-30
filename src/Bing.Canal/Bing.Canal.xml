@@ -24,6 +24,11 @@
             事件类型
             </summary>
         </member>
+        <member name="P:Bing.Canal.Model.DataChange.ExecuteTime">
+            <summary>
+            变更数据的执行时间
+            </summary>
+        </member>
         <member name="P:Bing.Canal.Model.DataChange.CanalDestination">
             <summary>
             Canal目的地
@@ -425,6 +430,13 @@
             <summary>
             帮助类
             </summary>
+        </member>
+        <member name="M:Bing.Canal.Server.Internal.Helper.ToDateTime(System.Int64)">
+            <summary>
+            时间戳转换为C#格式时间
+            </summary>
+            <param name="timeStamp">Unix时间戳格式</param>
+            <returns>C#时间格式</returns>
         </member>
         <member name="M:Bing.Canal.Server.Internal.Helper.ParseTime(System.Int32,System.Int32)">
             <summary>
