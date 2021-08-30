@@ -2,7 +2,6 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -226,7 +225,7 @@ namespace Bing.Canal.Server
 
             var dotime = (int)stopwatch.Elapsed.TotalSeconds;
             var time = dotime > 1 ? Helper.ParseTime(dotime) : $"{stopwatch.Elapsed.TotalMilliseconds}ms";
-            var canalQueueData = new CanalQueueData()
+            var canalQueueData = new CanalQueueData
             {
                 Time = time,
                 CanalBody = canalBody
@@ -371,7 +370,8 @@ namespace Bing.Canal.Server
                         {
                             DbName = entry.Header.SchemaName,
                             TableName = entry.Header.TableName,
-                            CanalDestination = _options.Destination
+                            CanalDestination = _options.Destination,
+                            ExecuteTime = Helper.ToDateTime(entry.Header.ExecuteTime)
                         };
                         if (eventType == EventType.Delete)
                         {

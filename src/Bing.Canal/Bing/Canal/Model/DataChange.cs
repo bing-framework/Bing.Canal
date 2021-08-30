@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using CanalSharp.Protocol;
 
 namespace Bing.Canal.Model
@@ -22,6 +23,11 @@ namespace Bing.Canal.Model
         /// 事件类型
         /// </summary>
         public string EventType { get; set; }
+
+        /// <summary>
+        /// 变更数据的执行时间
+        /// </summary>
+        public DateTime ExecuteTime { get; set; }
 
         /// <summary>
         /// Canal目的地

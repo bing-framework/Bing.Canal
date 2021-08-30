@@ -12,6 +12,19 @@ namespace Bing.Canal.Server.Internal
     internal static class Helper
     {
         /// <summary>
+        /// 时间戳转换为C#格式时间
+        /// </summary>
+        /// <param name="timeStamp">Unix时间戳格式</param>
+        /// <returns>C#时间格式</returns>
+        public static DateTime ToDateTime(long timeStamp)
+        {
+            var dtBegin = TimeZoneInfo.ConvertTime(new DateTime(1970, 1, 1), TimeZoneInfo.Local);
+            var time = timeStamp * 10000;
+            var toNow = new TimeSpan(time);
+            return dtBegin.Add(toNow);
+        }
+
+        /// <summary>
         /// 解析时间。将秒数转换为几天几小时
         /// </summary>
         /// <param name="t">秒数</param>
