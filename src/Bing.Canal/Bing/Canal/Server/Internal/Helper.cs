@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using Bing.Canal.Model;
+using Bing.Canal.Server.Models;
 using CanalSharp.Protocol;
+using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 
 namespace Bing.Canal.Server.Internal
 {
@@ -86,6 +89,104 @@ namespace Bing.Canal.Server.Internal
                 : dataChange.AfterColumnList;
             var primaryKey = columns.FirstOrDefault(x => x.IsKey);
             return primaryKey;
+        }
+
+        /// <summary>
+        /// 构建Canal内容
+        /// </summary>
+        /// <param name="batchId">批次标识</param>
+        /// <param name="entries">变更入口列表</param>
+        /// <param name="destination">Canal目的地</param>
+        /// <param name="logger">日志组件</param>
+        public static CanalBody BuildCanalBody(long batchId, List<Entry> entries,string destination, ILogger logger = null)
+        {
+            var result = new List<DataChange>();
+            foreach (var entry in entries)
+            {
+                // 忽略事务
+                if (entry.EntryType == EntryType.Transactionbegin || entry.EntryType == EntryType.Transactionend)
+                    continue;
+                // 没有拿到数据库名称或数据表名称的直接排除
+                if (string.IsNullOrEmpty(entry.Header.SchemaName) || string.IsNullOrEmpty(entry.Header.TableName))
+                    continue;
+                RowChange rowChange = null;
+                try
+                {
+                    // 获取行变更
+                    rowChange = RowChange.Parser.ParseFrom(entry.StoreValue);
+                }
+                catch (Exception e)
+                {
+                    logger?.LogError(e, $"DbName:{entry.Header.SchemaName},TbName:{entry.Header.TableName} RowChange.Parser.ParseFrom error");
+                    continue;
+                }
+
+                if (rowChange != null)
+                {
+                    // 变更类型 insert/update/delete 等等
+                    var eventType = rowChange.EventType;
+                    // 输出binlog信息 表名 数据库名 变更类型
+                    logger?.LogInformation($"================> binlog[{entry.Header.LogfileName}:{entry.Header.LogfileOffset}] , name[{entry.Header.SchemaName},{entry.Header.TableName}] , eventType :{eventType}");
+                    // 输出 insert/update/delete 变更类型列数据
+                    foreach (var rowData in rowChange.RowDatas)
+                    {
+                        var dataChange = new DataChange
+                        {
+                            DbName = entry.Header.SchemaName,
+                            TableName = entry.Header.TableName,
+                            CanalDestination = destination,
+                            ExecuteTime = Helper.ToDateTime(entry.Header.ExecuteTime)
+                        };
+                        if (eventType == EventType.Delete)
+                        {
+                            dataChange.EventType = DataChange.EventConst.Delete;
+                            dataChange.BeforeColumnList = rowData.BeforeColumns.ToList();
+                        }
+                        else if (eventType == EventType.Insert)
+                        {
+                            dataChange.EventType = DataChange.EventConst.Insert;
+                            dataChange.AfterColumnList = rowData.AfterColumns.ToList();
+                        }
+                        else if (eventType == EventType.Update)
+                        {
+                            dataChange.EventType = DataChange.EventConst.Update;
+                            dataChange.BeforeColumnList = rowData.BeforeColumns.ToList();
+                            dataChange.AfterColumnList = rowData.AfterColumns.ToList();
+                        }
+                        else
+                        {
+                            continue;
+                        }
+
+                        var primaryKey = Helper.GetPrimaryKeyColumn(dataChange);
+                        if (primaryKey == null || string.IsNullOrEmpty(primaryKey.Value))
+                        {
+                            // 没有主键
+                            logger?.LogError($"DbName:{dataChange.DbName},TbName:{dataChange.TableName} without primaryKey :{JsonConvert.SerializeObject(dataChange)}");
+                            continue;
+                        }
+
+                        result.Add(dataChange);
+                    }
+                }
+            }
+
+            return new CanalBody(result, batchId);
+        }
+
+        /// <summary>
+        /// 初始化注册类型列表
+        /// </summary>
+        /// <param name="registerTypeList">注册类型列表</param>
+        /// <param name="register">Canal消费者注册器</param>
+        public static void InitRegisterTypes(List<System.Type> registerTypeList, CanalConsumeRegister register)
+        {
+            if (register.SingletonConsumeList != null && register.SingletonConsumeList.Any())
+                registerTypeList.AddRange(register.SingletonConsumeList);
+            if (register.ConsumeList != null && register.ConsumeList.Any())
+                registerTypeList.AddRange(register.ConsumeList);
+            if (!registerTypeList.Any())
+                throw new ArgumentNullException(nameof(registerTypeList));
         }
     }
 }

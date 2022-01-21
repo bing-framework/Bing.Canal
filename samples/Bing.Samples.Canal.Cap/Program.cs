@@ -30,7 +30,7 @@ namespace Bing.Samples.Canal.Cap
                     //{
                     //    x.RegisterSingleton<CapHandler>();
                     //});
-                    services.AddClusterCanalService(x =>
+                    services.AddCanalService(x =>
                     {
                         x.RegisterSingleton<CapHandler>();
                     });

@@ -5,19 +5,18 @@ using CanalSharp.Protocol;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Exception = System.Exception;
 
-namespace Bing.Canal.Server
+namespace Bing.Canal.Server.Servers
 {
     /// <summary>
-    /// Canal客户端 后台服务
+    /// 单机 异步 Canal 处理服务器
     /// </summary>
-    internal class ClusterCanalClientHostedService : CanalClientHostedServiceBase
+    public class SimpleAsyncCanalProcessingServer : AsyncCanalProcessingServerBase
     {
         /// <summary>
         /// 日志
         /// </summary>
-        private readonly ILogger<ClusterCanalClientHostedService> _logger;
+        private readonly ILogger<SimpleAsyncCanalProcessingServer> _logger;
 
         /// <summary>
         /// 日志工厂
@@ -25,43 +24,42 @@ namespace Bing.Canal.Server
         private readonly ILoggerFactory _loggerFactory;
 
         /// <summary>
-        /// Canal选项配置
-        /// </summary>
-        private readonly CanalOptions _options;
-
-        /// <summary>
         /// Canal 连接
         /// </summary>
-        private ClusterCanalConnection _canalConnection;
+        private SimpleCanalConnection _canalConnection;
 
         /// <summary>
-        /// 初始化一个<see cref="ClusterCanalClientHostedService"/>类型的实例
+        /// 初始化一个<see cref="SimpleAsyncCanalProcessingServer"/>类型的实例
         /// </summary>
-        /// <param name="logger">日志</param>
-        /// <param name="loggerFactory">日志工厂</param>
-        /// <param name="options">选项配置</param>
-        /// <param name="serviceScopeFactory">服务作用域工厂</param>
-        /// <param name="register">消费者注册器</param>
-        public ClusterCanalClientHostedService(ILogger<ClusterCanalClientHostedService> logger
-            , ILoggerFactory loggerFactory
-            , IOptions<CanalOptions> options
-            , IServiceScopeFactory serviceScopeFactory
-            , CanalConsumeRegister register)
+        public SimpleAsyncCanalProcessingServer(
+            ILogger<SimpleAsyncCanalProcessingServer> logger,
+            ILoggerFactory loggerFactory,
+            IOptions<CanalOptions> options,
+            IServiceScopeFactory serviceScopeFactory,
+            CanalConsumeRegister register)
             : base(logger, options, serviceScopeFactory, register)
         {
             _logger = logger;
             _loggerFactory = loggerFactory;
-            _options = options.Value;
         }
+
+        /// <summary>
+        /// 模式
+        /// </summary>
+        /// <remarks>
+        /// 单点：Standalone <br />
+        /// 集群：Cluster
+        /// </remarks>
+        public override string Mode => "Standalone";
 
         /// <summary>
         /// 连接
         /// </summary>
         protected override async Task ConnectAsync()
         {
-            _canalConnection = new ClusterCanalConnection(_options.Cluster, _loggerFactory);
+            _canalConnection = new SimpleCanalConnection(Options.Standalone, _loggerFactory.CreateLogger<SimpleCanalConnection>());
             await _canalConnection.ConnectAsync();
-            await _canalConnection.SubscribeAsync(_options.Filter);
+            await _canalConnection.SubscribeAsync(Options.Filter);
             // 回滚寻找上次中断的位置
             await _canalConnection.RollbackAsync(0);
         }
@@ -74,7 +72,10 @@ namespace Bing.Canal.Server
             try
             {
                 _logger.LogInformation("canal receive worker reconnect...");
-                await _canalConnection.ReConnectAsync();
+                await _canalConnection.DisposeAsync();
+                await _canalConnection.ConnectAsync();
+                await _canalConnection.SubscribeAsync(Options.Filter);
+                await _canalConnection.RollbackAsync(0);
             }
             catch (Exception e)
             {
@@ -96,14 +97,9 @@ namespace Bing.Canal.Server
         protected override async Task AckAsync(long batchId) => await _canalConnection.AckAsync(batchId);
 
         /// <summary>
-        /// 校验
-        /// </summary>
-        protected override bool Valid() => _canalConnection != null;
-
-        /// <summary>
         /// 释放资源
         /// </summary>
-        protected override async Task DisposeAsync()
+        public override async ValueTask DisposeAsync()
         {
             if (IsDispose)
                 return;
@@ -111,7 +107,7 @@ namespace Bing.Canal.Server
             Cts.Cancel();
             try
             {
-                await _canalConnection.UnSubscribeAsync(_options.Filter);
+                await _canalConnection.UnSubscribeAsync(Options.Filter);
                 await _canalConnection.DisConnectAsync();
                 _logger.LogInformation($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fff}] canal client stop success...");
             }
@@ -123,5 +119,10 @@ namespace Bing.Canal.Server
             _canalConnection = null;
             Scope.Dispose();
         }
+
+        /// <summary>
+        /// 校验
+        /// </summary>
+        protected override bool Valid() => _canalConnection != null;
     }
 }

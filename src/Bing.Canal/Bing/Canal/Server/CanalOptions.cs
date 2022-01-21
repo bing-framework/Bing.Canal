@@ -35,6 +35,11 @@ namespace Bing.Canal.Server
         public string Mode { get; set; } = "Standalone";
 
         /// <summary>
+        /// 是否异步操作
+        /// </summary>
+        public bool Async { get; set; } = false;
+
+        /// <summary>
         /// 目标
         /// </summary>
         public string Destination { get; set; } = "example";
@@ -74,6 +79,7 @@ namespace Bing.Canal.Server
         {
             options.Filter = _configuration["Canal:Filter"] ?? ".*\\..*";
             options.BatchSize = Convert.ToInt32(_configuration["Canal:BatchSize"] ?? "1024");
+            options.Async = Convert.ToBoolean(_configuration["Canal:Async"] ?? "false");
             options.Mode = _configuration["Canal:Mode"] ?? "Standalone";
             options.Destination = _configuration["Canal:Destination"];
             if (options.Mode == "Standalone" && _configuration[$"Canal:{options.Mode}:Host"] != null)

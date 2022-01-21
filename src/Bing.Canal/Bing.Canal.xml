@@ -261,6 +261,11 @@
             集群：Cluster
             </remarks>
         </member>
+        <member name="P:Bing.Canal.Server.CanalOptions.Async">
+            <summary>
+            是否异步操作
+            </summary>
+        </member>
         <member name="P:Bing.Canal.Server.CanalOptions.Destination">
             <summary>
             目标
@@ -298,73 +303,6 @@
             </summary>
             <param name="options">Canal选项配置</param>
         </member>
-        <member name="T:Bing.Canal.Server.ClusterCanalClientHostedService">
-            <summary>
-            Canal客户端 后台服务
-            </summary>
-        </member>
-        <member name="F:Bing.Canal.Server.ClusterCanalClientHostedService._logger">
-            <summary>
-            日志
-            </summary>
-        </member>
-        <member name="F:Bing.Canal.Server.ClusterCanalClientHostedService._loggerFactory">
-            <summary>
-            日志工厂
-            </summary>
-        </member>
-        <member name="F:Bing.Canal.Server.ClusterCanalClientHostedService._options">
-            <summary>
-            Canal选项配置
-            </summary>
-        </member>
-        <member name="F:Bing.Canal.Server.ClusterCanalClientHostedService._canalConnection">
-            <summary>
-            Canal 连接
-            </summary>
-        </member>
-        <member name="M:Bing.Canal.Server.ClusterCanalClientHostedService.#ctor(Microsoft.Extensions.Logging.ILogger{Bing.Canal.Server.ClusterCanalClientHostedService},Microsoft.Extensions.Logging.ILoggerFactory,Microsoft.Extensions.Options.IOptions{Bing.Canal.Server.CanalOptions},Microsoft.Extensions.DependencyInjection.IServiceScopeFactory,Bing.Canal.Server.CanalConsumeRegister)">
-            <summary>
-            初始化一个<see cref="T:Bing.Canal.Server.ClusterCanalClientHostedService"/>类型的实例
-            </summary>
-            <param name="logger">日志</param>
-            <param name="loggerFactory">日志工厂</param>
-            <param name="options">选项配置</param>
-            <param name="serviceScopeFactory">服务作用域工厂</param>
-            <param name="register">消费者注册器</param>
-        </member>
-        <member name="M:Bing.Canal.Server.ClusterCanalClientHostedService.ConnectAsync">
-            <summary>
-            连接
-            </summary>
-        </member>
-        <member name="M:Bing.Canal.Server.ClusterCanalClientHostedService.ReConnectAsync">
-            <summary>
-            重新连接
-            </summary>
-        </member>
-        <member name="M:Bing.Canal.Server.ClusterCanalClientHostedService.GetMessageAsync(System.Int32)">
-            <summary>
-            获取数据
-            </summary>
-            <param name="fetchSize">获取数据大小</param>
-        </member>
-        <member name="M:Bing.Canal.Server.ClusterCanalClientHostedService.AckAsync(System.Int64)">
-            <summary>
-            确认消息
-            </summary>
-            <param name="batchId">批次标识</param>
-        </member>
-        <member name="M:Bing.Canal.Server.ClusterCanalClientHostedService.Valid">
-            <summary>
-            校验
-            </summary>
-        </member>
-        <member name="M:Bing.Canal.Server.ClusterCanalClientHostedService.DisposeAsync">
-            <summary>
-            释放资源
-            </summary>
-        </member>
         <member name="T:Bing.Canal.Server.DataChangeExtensions">
             <summary>
             <see cref="T:Bing.Canal.Model.DataChange"/> 扩展
@@ -387,14 +325,6 @@
             服务扩展 - Canal服务
             </summary>
         </member>
-        <member name="M:Bing.Canal.Server.Extensions.RegisterCanalService(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Action{Bing.Canal.Server.CanalConsumeRegister},System.Boolean)">
-            <summary>
-            注册Canal服务
-            </summary>
-            <param name="services">服务集合</param>
-            <param name="setupAction">操作</param>
-            <param name="isCluster">是否集群服务</param>
-        </member>
         <member name="M:Bing.Canal.Server.Extensions.AddCanalService(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Action{Bing.Canal.Server.CanalConsumeRegister})">
             <summary>
             注册Canal服务
@@ -402,12 +332,80 @@
             <param name="services">服务集合</param>
             <param name="setupAction">操作</param>
         </member>
-        <member name="M:Bing.Canal.Server.Extensions.AddClusterCanalService(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Action{Bing.Canal.Server.CanalConsumeRegister})">
+        <member name="T:Bing.Canal.Server.IBootstrapper">
             <summary>
-            注册Canal集群服务
+            启动服务
             </summary>
-            <param name="services">服务集合</param>
-            <param name="setupAction">操作</param>
+        </member>
+        <member name="M:Bing.Canal.Server.IBootstrapper.BootstrapAsync(System.Threading.CancellationToken)">
+            <summary>
+            启动
+            </summary>
+            <param name="stoppingToken">停止令牌</param>
+        </member>
+        <member name="F:Bing.Canal.Server.DefaultBootstrapper._logger">
+            <summary>
+            日志组件
+            </summary>
+        </member>
+        <member name="F:Bing.Canal.Server.DefaultBootstrapper._options">
+            <summary>
+            Canal 选项配置
+            </summary>
+        </member>
+        <member name="M:Bing.Canal.Server.DefaultBootstrapper.#ctor(Microsoft.Extensions.Logging.ILogger{Bing.Canal.Server.DefaultBootstrapper},Microsoft.Extensions.Options.IOptions{Bing.Canal.Server.CanalOptions},System.Collections.Generic.IEnumerable{Bing.Canal.Server.ICanalProcessingServer})">
+            <summary>
+            初始化一个<see cref="T:Bing.Canal.Server.DefaultBootstrapper"/>类型的实例
+            </summary>
+            <param name="logger">日志组件</param>
+            <param name="options">Canal选项配置</param>
+            <param name="processors">处理服务器</param>
+        </member>
+        <member name="P:Bing.Canal.Server.DefaultBootstrapper.Processors">
+            <summary>
+            处理服务器列表
+            </summary>
+        </member>
+        <member name="M:Bing.Canal.Server.DefaultBootstrapper.BootstrapAsync(System.Threading.CancellationToken)">
+            <summary>
+            启动
+            </summary>
+            <param name="stoppingToken">停止令牌</param>
+        </member>
+        <member name="M:Bing.Canal.Server.DefaultBootstrapper.BootstrapCoreAsync">
+            <summary>
+            核心启动服务
+            </summary>
+        </member>
+        <member name="M:Bing.Canal.Server.DefaultBootstrapper.ExecuteAsync(System.Threading.CancellationToken)">
+            <summary>
+            执行
+            </summary>
+            <param name="stoppingToken">停止令牌</param>
+        </member>
+        <member name="T:Bing.Canal.Server.ICanalProcessingServer">
+            <summary>
+            Canal处理服务器
+            </summary>
+        </member>
+        <member name="P:Bing.Canal.Server.ICanalProcessingServer.Async">
+            <summary>
+            是否异步操作
+            </summary>
+        </member>
+        <member name="P:Bing.Canal.Server.ICanalProcessingServer.Mode">
+            <summary>
+            模式
+            </summary>
+            <remarks>
+            单点：Standalone <br />
+            集群：Cluster
+            </remarks>
+        </member>
+        <member name="M:Bing.Canal.Server.ICanalProcessingServer.StartAsync">
+            <summary>
+            启动
+            </summary>
         </member>
         <member name="T:Bing.Canal.Server.INotification">
             <summary>
@@ -458,6 +456,22 @@
             </summary>
             <param name="dataChange">数据变更实体</param>
         </member>
+        <member name="M:Bing.Canal.Server.Internal.Helper.BuildCanalBody(System.Int64,System.Collections.Generic.List{CanalSharp.Protocol.Entry},System.String,Microsoft.Extensions.Logging.ILogger)">
+            <summary>
+            构建Canal内容
+            </summary>
+            <param name="batchId">批次标识</param>
+            <param name="entries">变更入口列表</param>
+            <param name="destination">Canal目的地</param>
+            <param name="logger">日志组件</param>
+        </member>
+        <member name="M:Bing.Canal.Server.Internal.Helper.InitRegisterTypes(System.Collections.Generic.List{System.Type},Bing.Canal.Server.CanalConsumeRegister)">
+            <summary>
+            初始化注册类型列表
+            </summary>
+            <param name="registerTypeList">注册类型列表</param>
+            <param name="register">Canal消费者注册器</param>
+        </member>
         <member name="T:Bing.Canal.Server.Models.CanalBody">
             <summary>
             Canal内容体
@@ -500,71 +514,460 @@
             Canal内容体
             </summary>
         </member>
-        <member name="T:Bing.Canal.Server.SimpleCanalClientHostedService">
+        <member name="T:Bing.Canal.Server.Servers.AsyncCanalProcessingServerBase">
             <summary>
-            Canal客户端 后台服务
+            异步Canal处理服务器基类
             </summary>
         </member>
-        <member name="F:Bing.Canal.Server.SimpleCanalClientHostedService._logger">
+        <member name="F:Bing.Canal.Server.Servers.AsyncCanalProcessingServerBase._logger">
             <summary>
             日志
             </summary>
         </member>
-        <member name="F:Bing.Canal.Server.SimpleCanalClientHostedService._loggerFactory">
+        <member name="F:Bing.Canal.Server.Servers.AsyncCanalProcessingServerBase._queue">
             <summary>
-            日志工厂
+            队列
             </summary>
         </member>
-        <member name="F:Bing.Canal.Server.SimpleCanalClientHostedService._options">
+        <member name="F:Bing.Canal.Server.Servers.AsyncCanalProcessingServerBase._canalQueue">
+            <summary>
+            Canal队列
+            </summary>
+        </member>
+        <member name="F:Bing.Canal.Server.Servers.AsyncCanalProcessingServerBase._resetFlag">
+            <summary>
+            重置标识
+            </summary>
+        </member>
+        <member name="F:Bing.Canal.Server.Servers.AsyncCanalProcessingServerBase._condition">
+            <summary>
+            自动重置事件
+            </summary>
+        </member>
+        <member name="M:Bing.Canal.Server.Servers.AsyncCanalProcessingServerBase.#ctor(Microsoft.Extensions.Logging.ILogger{Bing.Canal.Server.Servers.AsyncCanalProcessingServerBase},Microsoft.Extensions.Options.IOptions{Bing.Canal.Server.CanalOptions},Microsoft.Extensions.DependencyInjection.IServiceScopeFactory,Bing.Canal.Server.CanalConsumeRegister)">
+            <summary>
+            初始化一个<see cref="T:Bing.Canal.Server.Servers.AsyncCanalProcessingServerBase"/>类型的实例
+            </summary>
+        </member>
+        <member name="P:Bing.Canal.Server.Servers.AsyncCanalProcessingServerBase.Async">
+            <summary>
+            是否异步操作
+            </summary>
+        </member>
+        <member name="P:Bing.Canal.Server.Servers.AsyncCanalProcessingServerBase.IsDispose">
+            <summary>
+            是否已释放
+            </summary>
+        </member>
+        <member name="M:Bing.Canal.Server.Servers.AsyncCanalProcessingServerBase.StartAsync">
+            <summary>
+            启动
+            </summary>
+        </member>
+        <member name="M:Bing.Canal.Server.Servers.AsyncCanalProcessingServerBase.ProcessAsync">
+            <summary>
+            处理
+            </summary>
+        </member>
+        <member name="M:Bing.Canal.Server.Servers.AsyncCanalProcessingServerBase.ReceiveData">
+            <summary>
+            接收数据
+            </summary>
+        </member>
+        <member name="M:Bing.Canal.Server.Servers.AsyncCanalProcessingServerBase.PreparedAndEnqueueAsync">
+            <summary>
+            准备数据并入队
+            </summary>
+        </member>
+        <member name="M:Bing.Canal.Server.Servers.AsyncCanalProcessingServerBase.Execute">
+            <summary>
+            执行
+            </summary>
+        </member>
+        <member name="M:Bing.Canal.Server.Servers.AsyncCanalProcessingServerBase.AckMessage">
+            <summary>
+            确认消息
+            </summary>
+        </member>
+        <member name="M:Bing.Canal.Server.Servers.AsyncCanalProcessingServerBase.Valid">
+            <summary>
+            校验
+            </summary>
+        </member>
+        <member name="F:Bing.Canal.Server.Servers.CanalProcessingServerBase._logger">
+            <summary>
+            日志
+            </summary>
+        </member>
+        <member name="F:Bing.Canal.Server.Servers.CanalProcessingServerBase._registerTypeList">
+            <summary>
+            注册类型列表
+            </summary>
+        </member>
+        <member name="P:Bing.Canal.Server.Servers.CanalProcessingServerBase.Async">
+            <summary>
+            是否异步操作
+            </summary>
+        </member>
+        <member name="P:Bing.Canal.Server.Servers.CanalProcessingServerBase.Mode">
+            <summary>
+            模式
+            </summary>
+            <remarks>
+            单点：Standalone <br />
+            集群：Cluster
+            </remarks>
+        </member>
+        <member name="P:Bing.Canal.Server.Servers.CanalProcessingServerBase.Options">
             <summary>
             Canal选项配置
             </summary>
         </member>
-        <member name="F:Bing.Canal.Server.SimpleCanalClientHostedService._canalConnection">
+        <member name="P:Bing.Canal.Server.Servers.CanalProcessingServerBase.Cts">
             <summary>
-            Canal 连接
+            取消令牌源
             </summary>
         </member>
-        <member name="M:Bing.Canal.Server.SimpleCanalClientHostedService.#ctor(Microsoft.Extensions.Logging.ILogger{Bing.Canal.Server.SimpleCanalClientHostedService},Microsoft.Extensions.Logging.ILoggerFactory,Microsoft.Extensions.Options.IOptions{Bing.Canal.Server.CanalOptions},Microsoft.Extensions.DependencyInjection.IServiceScopeFactory,Bing.Canal.Server.CanalConsumeRegister)">
+        <member name="P:Bing.Canal.Server.Servers.CanalProcessingServerBase.Scope">
             <summary>
-            初始化一个<see cref="T:Bing.Canal.Server.CanalClientHostedServiceBase"/>类型的实例
+            作用域
             </summary>
-            <param name="logger">日志</param>
-            <param name="loggerFactory">日志工厂</param>
-            <param name="options">选项配置</param>
-            <param name="serviceScopeFactory">服务作用域工厂</param>
-            <param name="register">消费者注册器</param>
         </member>
-        <member name="M:Bing.Canal.Server.SimpleCanalClientHostedService.ConnectAsync">
+        <member name="M:Bing.Canal.Server.Servers.CanalProcessingServerBase.StartAsync">
+            <summary>
+            启动
+            </summary>
+        </member>
+        <member name="M:Bing.Canal.Server.Servers.CanalProcessingServerBase.ConnectAsync">
             <summary>
             连接
             </summary>
         </member>
-        <member name="M:Bing.Canal.Server.SimpleCanalClientHostedService.ReConnectAsync">
+        <member name="M:Bing.Canal.Server.Servers.CanalProcessingServerBase.ReConnectAsync">
             <summary>
             重新连接
             </summary>
         </member>
-        <member name="M:Bing.Canal.Server.SimpleCanalClientHostedService.GetMessageAsync(System.Int32)">
+        <member name="M:Bing.Canal.Server.Servers.CanalProcessingServerBase.GetMessageAsync(System.Int32)">
             <summary>
             获取数据
             </summary>
             <param name="fetchSize">获取数据大小</param>
         </member>
-        <member name="M:Bing.Canal.Server.SimpleCanalClientHostedService.AckAsync(System.Int64)">
+        <member name="M:Bing.Canal.Server.Servers.CanalProcessingServerBase.AckAsync(System.Int64)">
             <summary>
             确认消息
             </summary>
             <param name="batchId">批次标识</param>
         </member>
-        <member name="M:Bing.Canal.Server.SimpleCanalClientHostedService.Valid">
+        <member name="M:Bing.Canal.Server.Servers.CanalProcessingServerBase.ProcessAsync">
+            <summary>
+            处理
+            </summary>
+        </member>
+        <member name="M:Bing.Canal.Server.Servers.CanalProcessingServerBase.SendAsync(Bing.Canal.Server.Models.CanalBody)">
+            <summary>
+            发送消息
+            </summary>
+            <param name="body">正文</param>
+        </member>
+        <member name="M:Bing.Canal.Server.Servers.CanalProcessingServerBase.DisposeAsync">
+            <summary>
+            释放资源
+            </summary>
+        </member>
+        <member name="T:Bing.Canal.Server.Servers.ClusterAsyncCanalProcessingServer">
+            <summary>
+            集群 异步 Canal 处理服务器
+            </summary>
+        </member>
+        <member name="F:Bing.Canal.Server.Servers.ClusterAsyncCanalProcessingServer._logger">
+            <summary>
+            日志
+            </summary>
+        </member>
+        <member name="F:Bing.Canal.Server.Servers.ClusterAsyncCanalProcessingServer._loggerFactory">
+            <summary>
+            日志工厂
+            </summary>
+        </member>
+        <member name="F:Bing.Canal.Server.Servers.ClusterAsyncCanalProcessingServer._canalConnection">
+            <summary>
+            Canal 连接
+            </summary>
+        </member>
+        <member name="M:Bing.Canal.Server.Servers.ClusterAsyncCanalProcessingServer.#ctor(Microsoft.Extensions.Logging.ILogger{Bing.Canal.Server.Servers.ClusterAsyncCanalProcessingServer},Microsoft.Extensions.Logging.ILoggerFactory,Microsoft.Extensions.Options.IOptions{Bing.Canal.Server.CanalOptions},Microsoft.Extensions.DependencyInjection.IServiceScopeFactory,Bing.Canal.Server.CanalConsumeRegister)">
+            <summary>
+            初始化一个<see cref="T:Bing.Canal.Server.Servers.ClusterAsyncCanalProcessingServer"/> 类型的实例
+            </summary>
+        </member>
+        <member name="P:Bing.Canal.Server.Servers.ClusterAsyncCanalProcessingServer.Mode">
+            <summary>
+            模式
+            </summary>
+            <remarks>
+            单点：Standalone <br />
+            集群：Cluster
+            </remarks>
+        </member>
+        <member name="M:Bing.Canal.Server.Servers.ClusterAsyncCanalProcessingServer.ConnectAsync">
+            <summary>
+            连接
+            </summary>
+        </member>
+        <member name="M:Bing.Canal.Server.Servers.ClusterAsyncCanalProcessingServer.ReConnectAsync">
+            <summary>
+            重新连接
+            </summary>
+        </member>
+        <member name="M:Bing.Canal.Server.Servers.ClusterAsyncCanalProcessingServer.GetMessageAsync(System.Int32)">
+            <summary>
+            获取数据
+            </summary>
+            <param name="fetchSize">获取数据大小</param>
+        </member>
+        <member name="M:Bing.Canal.Server.Servers.ClusterAsyncCanalProcessingServer.AckAsync(System.Int64)">
+            <summary>
+            确认消息
+            </summary>
+            <param name="batchId">批次标识</param>
+        </member>
+        <member name="M:Bing.Canal.Server.Servers.ClusterAsyncCanalProcessingServer.DisposeAsync">
+            <summary>
+            释放资源
+            </summary>
+        </member>
+        <member name="M:Bing.Canal.Server.Servers.ClusterAsyncCanalProcessingServer.Valid">
             <summary>
             校验
             </summary>
         </member>
-        <member name="M:Bing.Canal.Server.SimpleCanalClientHostedService.DisposeAsync">
+        <member name="T:Bing.Canal.Server.Servers.ClusterSyncCanalProcessingServer">
+            <summary>
+            集群 同步 Canal 处理服务器
+            </summary>
+        </member>
+        <member name="F:Bing.Canal.Server.Servers.ClusterSyncCanalProcessingServer._logger">
+            <summary>
+            日志
+            </summary>
+        </member>
+        <member name="F:Bing.Canal.Server.Servers.ClusterSyncCanalProcessingServer._loggerFactory">
+            <summary>
+            日志工厂
+            </summary>
+        </member>
+        <member name="F:Bing.Canal.Server.Servers.ClusterSyncCanalProcessingServer._canalConnection">
+            <summary>
+            Canal 连接
+            </summary>
+        </member>
+        <member name="M:Bing.Canal.Server.Servers.ClusterSyncCanalProcessingServer.#ctor(Microsoft.Extensions.Logging.ILogger{Bing.Canal.Server.Servers.ClusterSyncCanalProcessingServer},Microsoft.Extensions.Logging.ILoggerFactory,Microsoft.Extensions.Options.IOptions{Bing.Canal.Server.CanalOptions},Microsoft.Extensions.DependencyInjection.IServiceScopeFactory,Bing.Canal.Server.CanalConsumeRegister)">
+            <summary>
+            初始化一个<see cref="T:Bing.Canal.Server.Servers.SimpleAsyncCanalProcessingServer"/>类型的实例
+            </summary>
+        </member>
+        <member name="P:Bing.Canal.Server.Servers.ClusterSyncCanalProcessingServer.Async">
+            <summary>
+            是否异步操作
+            </summary>
+        </member>
+        <member name="P:Bing.Canal.Server.Servers.ClusterSyncCanalProcessingServer.Mode">
+            <summary>
+            模式
+            </summary>
+            <remarks>
+            单点：Standalone <br />
+            集群：Cluster
+            </remarks>
+        </member>
+        <member name="M:Bing.Canal.Server.Servers.ClusterSyncCanalProcessingServer.ConnectAsync">
+            <summary>
+            连接
+            </summary>
+        </member>
+        <member name="M:Bing.Canal.Server.Servers.ClusterSyncCanalProcessingServer.ReConnectAsync">
+            <summary>
+            重新连接
+            </summary>
+        </member>
+        <member name="M:Bing.Canal.Server.Servers.ClusterSyncCanalProcessingServer.GetMessageAsync(System.Int32)">
+            <summary>
+            获取数据
+            </summary>
+            <param name="fetchSize">获取数据大小</param>
+        </member>
+        <member name="M:Bing.Canal.Server.Servers.ClusterSyncCanalProcessingServer.AckAsync(System.Int64)">
+            <summary>
+            确认消息
+            </summary>
+            <param name="batchId">批次标识</param>
+        </member>
+        <member name="M:Bing.Canal.Server.Servers.ClusterSyncCanalProcessingServer.DisposeAsync">
             <summary>
             释放资源
+            </summary>
+        </member>
+        <member name="T:Bing.Canal.Server.Servers.SimpleAsyncCanalProcessingServer">
+            <summary>
+            单机 异步 Canal 处理服务器
+            </summary>
+        </member>
+        <member name="F:Bing.Canal.Server.Servers.SimpleAsyncCanalProcessingServer._logger">
+            <summary>
+            日志
+            </summary>
+        </member>
+        <member name="F:Bing.Canal.Server.Servers.SimpleAsyncCanalProcessingServer._loggerFactory">
+            <summary>
+            日志工厂
+            </summary>
+        </member>
+        <member name="F:Bing.Canal.Server.Servers.SimpleAsyncCanalProcessingServer._canalConnection">
+            <summary>
+            Canal 连接
+            </summary>
+        </member>
+        <member name="M:Bing.Canal.Server.Servers.SimpleAsyncCanalProcessingServer.#ctor(Microsoft.Extensions.Logging.ILogger{Bing.Canal.Server.Servers.SimpleAsyncCanalProcessingServer},Microsoft.Extensions.Logging.ILoggerFactory,Microsoft.Extensions.Options.IOptions{Bing.Canal.Server.CanalOptions},Microsoft.Extensions.DependencyInjection.IServiceScopeFactory,Bing.Canal.Server.CanalConsumeRegister)">
+            <summary>
+            初始化一个<see cref="T:Bing.Canal.Server.Servers.SimpleAsyncCanalProcessingServer"/>类型的实例
+            </summary>
+        </member>
+        <member name="P:Bing.Canal.Server.Servers.SimpleAsyncCanalProcessingServer.Mode">
+            <summary>
+            模式
+            </summary>
+            <remarks>
+            单点：Standalone <br />
+            集群：Cluster
+            </remarks>
+        </member>
+        <member name="M:Bing.Canal.Server.Servers.SimpleAsyncCanalProcessingServer.ConnectAsync">
+            <summary>
+            连接
+            </summary>
+        </member>
+        <member name="M:Bing.Canal.Server.Servers.SimpleAsyncCanalProcessingServer.ReConnectAsync">
+            <summary>
+            重新连接
+            </summary>
+        </member>
+        <member name="M:Bing.Canal.Server.Servers.SimpleAsyncCanalProcessingServer.GetMessageAsync(System.Int32)">
+            <summary>
+            获取数据
+            </summary>
+            <param name="fetchSize">获取数据大小</param>
+        </member>
+        <member name="M:Bing.Canal.Server.Servers.SimpleAsyncCanalProcessingServer.AckAsync(System.Int64)">
+            <summary>
+            确认消息
+            </summary>
+            <param name="batchId">批次标识</param>
+        </member>
+        <member name="M:Bing.Canal.Server.Servers.SimpleAsyncCanalProcessingServer.DisposeAsync">
+            <summary>
+            释放资源
+            </summary>
+        </member>
+        <member name="M:Bing.Canal.Server.Servers.SimpleAsyncCanalProcessingServer.Valid">
+            <summary>
+            校验
+            </summary>
+        </member>
+        <member name="T:Bing.Canal.Server.Servers.SimpleSyncCanalProcessingServer">
+            <summary>
+            单机 同步 Canal 处理服务器
+            </summary>
+        </member>
+        <member name="F:Bing.Canal.Server.Servers.SimpleSyncCanalProcessingServer._logger">
+            <summary>
+            日志
+            </summary>
+        </member>
+        <member name="F:Bing.Canal.Server.Servers.SimpleSyncCanalProcessingServer._canalConnection">
+            <summary>
+            Canal 连接
+            </summary>
+        </member>
+        <member name="F:Bing.Canal.Server.Servers.SimpleSyncCanalProcessingServer._loggerFactory">
+            <summary>
+            日志工厂
+            </summary>
+        </member>
+        <member name="M:Bing.Canal.Server.Servers.SimpleSyncCanalProcessingServer.#ctor(Microsoft.Extensions.Logging.ILogger{Bing.Canal.Server.Servers.SimpleSyncCanalProcessingServer},Microsoft.Extensions.Logging.ILoggerFactory,Microsoft.Extensions.Options.IOptions{Bing.Canal.Server.CanalOptions},Microsoft.Extensions.DependencyInjection.IServiceScopeFactory,Bing.Canal.Server.CanalConsumeRegister)">
+            <summary>
+            初始化一个<see cref="T:Bing.Canal.Server.Servers.SimpleAsyncCanalProcessingServer"/>类型的实例
+            </summary>
+        </member>
+        <member name="P:Bing.Canal.Server.Servers.SimpleSyncCanalProcessingServer.Async">
+            <summary>
+            是否异步操作
+            </summary>
+        </member>
+        <member name="P:Bing.Canal.Server.Servers.SimpleSyncCanalProcessingServer.Mode">
+            <summary>
+            模式
+            </summary>
+            <remarks>
+            单点：Standalone <br />
+            集群：Cluster
+            </remarks>
+        </member>
+        <member name="M:Bing.Canal.Server.Servers.SimpleSyncCanalProcessingServer.ConnectAsync">
+            <summary>
+            连接
+            </summary>
+        </member>
+        <member name="M:Bing.Canal.Server.Servers.SimpleSyncCanalProcessingServer.ReConnectAsync">
+            <summary>
+            重新连接
+            </summary>
+        </member>
+        <member name="M:Bing.Canal.Server.Servers.SimpleSyncCanalProcessingServer.GetMessageAsync(System.Int32)">
+            <summary>
+            获取数据
+            </summary>
+            <param name="fetchSize">获取数据大小</param>
+        </member>
+        <member name="M:Bing.Canal.Server.Servers.SimpleSyncCanalProcessingServer.AckAsync(System.Int64)">
+            <summary>
+            确认消息
+            </summary>
+            <param name="batchId">批次标识</param>
+        </member>
+        <member name="M:Bing.Canal.Server.Servers.SimpleSyncCanalProcessingServer.DisposeAsync">
+            <summary>
+            释放资源
+            </summary>
+        </member>
+        <member name="T:Bing.Canal.Server.Servers.SyncCanalProcessingServerBase">
+            <summary>
+            同步Canal处理服务器基类
+            </summary>
+        </member>
+        <member name="F:Bing.Canal.Server.Servers.SyncCanalProcessingServerBase._logger">
+            <summary>
+            日志
+            </summary>
+        </member>
+        <member name="F:Bing.Canal.Server.Servers.SyncCanalProcessingServerBase.Flag">
+            <summary>
+            标识
+            </summary>
+        </member>
+        <member name="M:Bing.Canal.Server.Servers.SyncCanalProcessingServerBase.#ctor(Microsoft.Extensions.Logging.ILogger{Bing.Canal.Server.Servers.SyncCanalProcessingServerBase},Microsoft.Extensions.Options.IOptions{Bing.Canal.Server.CanalOptions},Microsoft.Extensions.DependencyInjection.IServiceScopeFactory,Bing.Canal.Server.CanalConsumeRegister)">
+            <summary>
+            初始化一个<see cref="T:Bing.Canal.Server.Servers.SyncCanalProcessingServerBase"/>类型的实例
+            </summary>
+        </member>
+        <member name="P:Bing.Canal.Server.Servers.SyncCanalProcessingServerBase.Async">
+            <summary>
+            是否异步操作
+            </summary>
+        </member>
+        <member name="M:Bing.Canal.Server.Servers.SyncCanalProcessingServerBase.ProcessAsync">
+            <summary>
+            处理
             </summary>
         </member>
     </members>

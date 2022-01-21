@@ -27,6 +27,10 @@ namespace Bing.Samples.Canal
                     {
                         x.RegisterSingleton<ConsoleHandler>();
                     });
+                    //services.AddClusterCanalService(x =>
+                    //{
+                    //    x.RegisterSingleton<ConsoleHandler>();
+                    //});
                     services.AddLogging(factory =>
                     {
                         factory
