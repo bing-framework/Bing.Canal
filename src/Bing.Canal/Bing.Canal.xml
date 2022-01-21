@@ -64,147 +64,6 @@
             删除
             </summary>
         </member>
-        <member name="T:Bing.Canal.Server.CanalClientHostedServiceBase">
-            <summary>
-            Canal客户端 后台服务基类
-            </summary>
-        </member>
-        <member name="F:Bing.Canal.Server.CanalClientHostedServiceBase._logger">
-            <summary>
-            日志
-            </summary>
-        </member>
-        <member name="F:Bing.Canal.Server.CanalClientHostedServiceBase._options">
-            <summary>
-            Canal选项配置
-            </summary>
-        </member>
-        <member name="F:Bing.Canal.Server.CanalClientHostedServiceBase._registerTypeList">
-            <summary>
-            注册类型列表
-            </summary>
-        </member>
-        <member name="F:Bing.Canal.Server.CanalClientHostedServiceBase._queue">
-            <summary>
-            队列
-            </summary>
-        </member>
-        <member name="F:Bing.Canal.Server.CanalClientHostedServiceBase._canalQueue">
-            <summary>
-            Canal队列
-            </summary>
-        </member>
-        <member name="F:Bing.Canal.Server.CanalClientHostedServiceBase._resetFlag">
-            <summary>
-            重置标识
-            </summary>
-        </member>
-        <member name="F:Bing.Canal.Server.CanalClientHostedServiceBase._condition">
-            <summary>
-            自动重置事件
-            </summary>
-        </member>
-        <member name="P:Bing.Canal.Server.CanalClientHostedServiceBase.IsDispose">
-            <summary>
-            是否已释放
-            </summary>
-        </member>
-        <member name="P:Bing.Canal.Server.CanalClientHostedServiceBase.Scope">
-            <summary>
-            作用域
-            </summary>
-        </member>
-        <member name="P:Bing.Canal.Server.CanalClientHostedServiceBase.Cts">
-            <summary>
-            取消令牌源
-            </summary>
-        </member>
-        <member name="M:Bing.Canal.Server.CanalClientHostedServiceBase.#ctor(Microsoft.Extensions.Logging.ILogger{Bing.Canal.Server.CanalClientHostedServiceBase},Microsoft.Extensions.Options.IOptions{Bing.Canal.Server.CanalOptions},Microsoft.Extensions.DependencyInjection.IServiceScopeFactory,Bing.Canal.Server.CanalConsumeRegister)">
-            <summary>
-            初始化一个<see cref="T:Bing.Canal.Server.CanalClientHostedServiceBase"/>类型的实例
-            </summary>
-            <param name="logger">日志</param>
-            <param name="options">选项配置</param>
-            <param name="serviceScopeFactory">服务作用域工厂</param>
-            <param name="register">消费者注册器</param>
-        </member>
-        <member name="M:Bing.Canal.Server.CanalClientHostedServiceBase.ConnectAsync">
-            <summary>
-            连接
-            </summary>
-        </member>
-        <member name="M:Bing.Canal.Server.CanalClientHostedServiceBase.ReConnectAsync">
-            <summary>
-            重新连接
-            </summary>
-        </member>
-        <member name="M:Bing.Canal.Server.CanalClientHostedServiceBase.GetMessageAsync(System.Int32)">
-            <summary>
-            获取数据
-            </summary>
-            <param name="fetchSize">获取数据大小</param>
-        </member>
-        <member name="M:Bing.Canal.Server.CanalClientHostedServiceBase.AckAsync(System.Int64)">
-            <summary>
-            确认消息
-            </summary>
-            <param name="batchId">批次标识</param>
-        </member>
-        <member name="M:Bing.Canal.Server.CanalClientHostedServiceBase.Valid">
-            <summary>
-            校验
-            </summary>
-        </member>
-        <member name="M:Bing.Canal.Server.CanalClientHostedServiceBase.DisposeAsync">
-            <summary>
-            释放资源
-            </summary>
-        </member>
-        <member name="M:Bing.Canal.Server.CanalClientHostedServiceBase.StartAsync(System.Threading.CancellationToken)">
-            <summary>
-            启动
-            </summary>
-            <param name="cancellationToken">取消令牌</param>
-        </member>
-        <member name="M:Bing.Canal.Server.CanalClientHostedServiceBase.StopAsync(System.Threading.CancellationToken)">
-            <summary>
-            停止
-            </summary>
-            <param name="cancellationToken">取消令牌</param>
-        </member>
-        <member name="M:Bing.Canal.Server.CanalClientHostedServiceBase.ReceiveData">
-            <summary>
-            接收数据
-            </summary>
-        </member>
-        <member name="M:Bing.Canal.Server.CanalClientHostedServiceBase.PreparedAndEnqueueAsync">
-            <summary>
-            准备数据并入队
-            </summary>
-        </member>
-        <member name="M:Bing.Canal.Server.CanalClientHostedServiceBase.Execute">
-            <summary>
-            执行
-            </summary>
-        </member>
-        <member name="M:Bing.Canal.Server.CanalClientHostedServiceBase.AckMessage">
-            <summary>
-            确认消息
-            </summary>
-        </member>
-        <member name="M:Bing.Canal.Server.CanalClientHostedServiceBase.SendAsync(Bing.Canal.Server.Models.CanalBody)">
-            <summary>
-            发送消息
-            </summary>
-            <param name="canalBody">Canal内容体</param>
-        </member>
-        <member name="M:Bing.Canal.Server.CanalClientHostedServiceBase.GetCanalBody(System.Collections.Generic.List{CanalSharp.Protocol.Entry},System.Int64)">
-            <summary>
-            获取Canal内容
-            </summary>
-            <param name="entries">变更入口列表</param>
-            <param name="batchId">批次标识</param>
-        </member>
         <member name="T:Bing.Canal.Server.CanalConsumeRegister">
             <summary>
             Canal消费者注册器
@@ -342,6 +201,11 @@
             启动
             </summary>
             <param name="stoppingToken">停止令牌</param>
+        </member>
+        <member name="T:Bing.Canal.Server.DefaultBootstrapper">
+            <summary>
+            默认启动服务
+            </summary>
         </member>
         <member name="F:Bing.Canal.Server.DefaultBootstrapper._logger">
             <summary>
